@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Study.Transform
+//namespace Study.Transform 을 아래처럼
+namespace Study_Transform
 {
     public class Study_Transform : MonoBehaviour
     {
