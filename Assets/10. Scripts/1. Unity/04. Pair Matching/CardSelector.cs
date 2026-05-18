@@ -17,11 +17,11 @@ namespace Study.PairMatchingGame
         [Header("Settings")]
         public float cursorYOffset = -0.5f;
         
-        private Card[] cards; //외부에서(PairMatchingGame)에서 주입 받습니다
-        private int currentIndex = 2;
+        private Card[]  cards; //외부에서(PairMatchingGame)에서 주입 받습니다
+        private int     currentIndex = 2;
         
-        private Card selectCardA;
-        private Card selectCardB;
+        private Card    selectCardA;
+        private Card    selectCardB;
 
         public bool WasSelectionCompleted { get; private set; }
 
