@@ -1205,6 +1205,7 @@ Transform:
   m_Children:
   - {fileID: 1898733084}
   - {fileID: 1592647585}
+  - {fileID: 1469985047}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &866679477
@@ -2200,13 +2201,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469985046}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.28649002, y: 0.19036001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1849983181}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 866679476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1469985048
 MonoBehaviour:
@@ -2232,7 +2233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1592647585}
   m_Layer: 0
-  m_Name: CardRoot
+  m_Name: Card Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3069,5 +3070,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 1469985047}
   - {fileID: 866679476}
