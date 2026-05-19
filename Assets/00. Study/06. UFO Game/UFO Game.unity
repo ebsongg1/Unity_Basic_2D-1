@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &238783550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 238783551}
+  m_Layer: 0
+  m_Name: 'SpawnPivot : + 18 (1)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &238783551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238783550}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 18, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 797202196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +371,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &797202194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797202196}
+  - component: {fileID: 797202195}
+  m_Layer: 0
+  m_Name: Obstacle Scroll
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &797202195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797202194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9196233cdab5db843b64f3bdf4fda92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Study.LayerAndScroll.ScrollController
+  speed: 5
+  direction: 0
+  layerPrefabs:
+  - {fileID: 5835819827481235624, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+  startLayer: {fileID: 2094843289}
+  endPivot: {fileID: 1031588038}
+  spawnPivot: {fileID: 238783551}
+--- !u!4 &797202196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797202194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1031588038}
+  - {fileID: 238783551}
+  - {fileID: 2094843290}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &942992205
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,13 +578,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9196233cdab5db843b64f3bdf4fda92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study.LayerAndScroll.ScrollController
-  speed: 10
+  speed: 3
   direction: 0
   layerPrefabs:
   - {fileID: 7747057422228624998, guid: 0aacb87023473b7479bac4abdea93a93, type: 3}
   startLayer: {fileID: 6859700885487564042}
   endPivot: {fileID: 1756469083}
   spawnPivot: {fileID: 2121602240}
+--- !u!1 &1031588037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1031588038}
+  m_Layer: 0
+  m_Name: 'EndPivot : - 18 (1)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1031588038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031588037}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 797202196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756469082
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +647,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1002860109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2094843289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5835819827481235624, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+  m_PrefabInstance: {fileID: 1545448634763775921}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2094843290 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+  m_PrefabInstance: {fileID: 1545448634763775921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2121602239
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +688,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1002860109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1545448634763775921
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 797202196}
+    m_Modifications:
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425608190303633080, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835819827481235624, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
+      propertyPath: m_Name
+      value: ObstacleLayer_0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14ea9f63d0271bc4da703f98da460491, type: 3}
 --- !u!4 &3729778079860961418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5990639532642023024, guid: 0aacb87023473b7479bac4abdea93a93, type: 3}
@@ -636,4 +819,5 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1002860109}
+  - {fileID: 797202196}
   - {fileID: 942992207}
