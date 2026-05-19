@@ -10,11 +10,11 @@ namespace Study.PairMatchingGame
     {
         [Header("Ref Object")]
         public CardSelector cardSelector;
-        public Card[]       board; 
+        public Card[]       board;
         public GameObject   clearObject;
         
         private int pairMatchingCount = 0; 
-
+        
         private void Awake()
         {
             int[] indexBuffer = new int[board.Length];
