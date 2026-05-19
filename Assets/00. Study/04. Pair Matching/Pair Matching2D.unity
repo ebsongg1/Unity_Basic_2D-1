@@ -1219,28 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e108fef6f1369224e96ae4498e146e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study.PairMatchingGame.PairMatchingGame2D
-  cardSelector: {fileID: 1469985048}
-  board:
-  - {fileID: 1175706477}
-  - {fileID: 1991449284}
-  - {fileID: 712400940}
-  - {fileID: 668255547}
-  - {fileID: 1404456151}
-  - {fileID: 625412509}
-  - {fileID: 1757349475}
-  - {fileID: 163174099}
-  - {fileID: 40657038}
-  - {fileID: 839907147}
-  - {fileID: 1410772516}
-  - {fileID: 1134106881}
-  - {fileID: 1052889669}
-  - {fileID: 240981080}
-  - {fileID: 1353250315}
-  - {fileID: 1902217359}
-  - {fileID: 1043452858}
-  - {fileID: 1727470492}
-  - {fileID: 1294829749}
-  - {fileID: 2055643951}
+  cardSelector2D: {fileID: 1469985048}
   clearObject: {fileID: 1898733083}
   columnCount: 5
   rowCount: 4
@@ -2238,9 +2217,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469985046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b014e52291b0753448617f4ca9045cd1, type: 3}
+  m_Script: {fileID: 11500000, guid: a5558b3b9e57faf44957dfb35c38ddf6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Study.PairMatchingGame.CardSelector
+  m_EditorClassIdentifier: Assembly-CSharp::Study.PairMatchingGame.CardSelector2D
   cursor: {fileID: 1849983181}
   cursorYOffset: -0.5
 --- !u!1 &1592647584

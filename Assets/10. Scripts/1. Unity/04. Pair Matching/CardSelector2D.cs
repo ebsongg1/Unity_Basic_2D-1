@@ -17,7 +17,7 @@ namespace Study.PairMatchingGame
         [Header("Settings")]
         public float cursorYOffset = -0.5f;
 
-        private Card[] cards; 
+        private Card[,] cards; 
         private int currentIndex = 2;
 
         private Card selectCardA;
@@ -55,7 +55,7 @@ namespace Study.PairMatchingGame
 
         #region Public Methods
 
-        public void SetBoard(Card[] cardArray)
+        public void SetBoard(Card[,] cardArray)
         {
             cards = cardArray;
         }
@@ -75,9 +75,12 @@ namespace Study.PairMatchingGame
 
         #region Private Methods
 
+        private int currentX = 2;
+        private int currentY = 0;
+
         private void SelectCard()
         {
-            Card currentCard = cards[currentIndex];
+            Card currentCard = cards[currentX, currentY];
 
             if (selectCardA == null)
             {
@@ -93,61 +96,45 @@ namespace Study.PairMatchingGame
                 WasSelectionCompleted = true;
             }
 
-            cards[currentIndex].Flip();
+            cards[currentX, currentY].Flip();
         }
 
-        private void MoveCursor(bool isLeft)
+        private void MoveCursor(Direction dir)
         {
-            int temp = currentIndex;
-
-            for (int i = 0; i < cards.Length; ++i)
-            {
-                temp += isLeft ? -1 : +1;
-
-                if (temp < 0) temp = cards.Length - 1;
-                if (temp >= cards.Length) temp = 0;
-
-                if (cards[temp] == null)
-                {
-                    currentIndex++;
-                    continue;
-                }
-                else
-                {
-                    currentIndex = temp;
-                    float cardX = cards[currentIndex].transform.position.x;
-                    float cardY = cards[currentIndex].transform.position.y + cursorYOffset;
-                    cursor.position = new Vector3(cardX, cardY, cursor.position.z);
-                    return;
-                }
-            }
-
-            currentIndex = -1;
-        }
-
-        private void MoveCursor(Direction direction)
-        {
-            const int COLUMN_COUNT = 5;
-
-            switch (direction)
+            switch(dir)
             {
                 case Direction.Up:
-                    for (int i = 0; i < COLUMN_COUNT; ++i)
-                        MoveCursor(false);
+                    currentY++;
                     break;
                 case Direction.Down:
-                    for (int i = 0; i < COLUMN_COUNT; ++i)
-                        MoveCursor(true);
+                    currentY--;
                     break;
                 case Direction.Left:
-                    MoveCursor(true);
+                    currentX--;
                     break;
                 case Direction.Right:
-                    MoveCursor(false);
+                    currentX++;
                     break;
             }
+            
+            //예외처리 구간
+            if (currentY >= cards.GetLength(1)) currentY = 0;    //행의 최대값을 벗어나면 0번위치로
+            else if (currentY < 0) currentY = cards.GetLength(1) - 1; //행의 최소값을 벗어나면 끝위치로
+            
+            if (currentX >= cards.GetLength(0)) currentX = 0;    //행의 최대값을 벗어나면 0번위치로
+            else if (currentX < 0) currentX = cards.GetLength(0) - 1; //행의 최소값을 벗어나면 끝위치로
 
+            UpdateCursorPosition(currentX, currentY);
         }
+
+        private void UpdateCursorPosition(int x, int y)
+        {
+            float cardX = cards[x,y].transform.position.x;
+            float cardY = cards[x,y].transform.position.y + cursorYOffset;
+            cursor.position = new Vector3(cardX, cardY, cursor.position.z);
+        }
+
+        
 
         #endregion
     }

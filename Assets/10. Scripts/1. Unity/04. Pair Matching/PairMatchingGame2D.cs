@@ -9,7 +9,7 @@ namespace Study.PairMatchingGame
     public class PairMatchingGame2D : MonoBehaviour
     {
         [Header("Ref Object")]
-        public CardSelector cardSelector;
+        public CardSelector2D cardSelector2D;
         public GameObject clearObject;
 
         private int pairMatchingCount = 0;
@@ -53,6 +53,8 @@ namespace Study.PairMatchingGame
                 board2D[x, y] = cards[i];
             }
 
+            cardSelector2D.SetBoard(board2D);
+
             //cardSelector.SetBoard(board);
             clearObject.SetActive(false);
 
@@ -85,9 +87,9 @@ namespace Study.PairMatchingGame
 
         private void LateUpdate()
         {
-            if (cardSelector.WasSelectionCompleted)
+            if (cardSelector2D.WasSelectionCompleted)
             {
-                Card[] selectedCard = cardSelector.GetSelectedCards();
+                Card[] selectedCard = cardSelector2D.GetSelectedCards();
                 CheckPairMatching(selectedCard[0], selectedCard[1]);
             }
         }
@@ -110,7 +112,7 @@ namespace Study.PairMatchingGame
                 Debug.Log("두 카드가 다릅니다");
             }
 
-            cardSelector.Clear();
+            cardSelector2D.Clear();
         }
 
         private void DeleteCard(Card target)
