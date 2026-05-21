@@ -19,7 +19,18 @@ namespace Study.PrimitiveAndVector
 
         public GameObject[] SunGlasses;
         private State currentState = State.Idle;
+        public float speed = 2.0f;
 
+        private Rigidbody2D rBody;
+        private Collider2D col;
+        public float jumpPower = 100;
+
+        private void Awake()
+        {
+            rBody = GetComponent<Rigidbody2D>();
+            col = GetComponent<Collider2D>();
+        }
+        
         private void FixedUpdate()
         {
             if(Keyboard.current.leftArrowKey.isPressed)
@@ -54,17 +65,6 @@ namespace Study.PrimitiveAndVector
             currentState = state;
         }
 
-        public float speed = 2.0f;
-
-        private Rigidbody2D rBody;
-        private Collider2D col;
-
-        private void Awake()
-        {
-            rBody = GetComponent<Rigidbody2D>();
-            col = GetComponent<Collider2D>();
-        }
-
         private void Move(Vector3 dir)
         {
             //transform.Translate(dir * speed * Time.deltaTime);
@@ -78,7 +78,7 @@ namespace Study.PrimitiveAndVector
             rBody.MovePosition(transform.position + moveVector);
         }
 
-        public float jumpPower = 100;
+        
 
         private void Jump()
         {
