@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 namespace Study.PrimitiveAndVector
 {
@@ -23,7 +24,28 @@ namespace Study.PrimitiveAndVector
 
         private Rigidbody2D rBody;
         private Collider2D col;
-        //public float jumpPower = 100;
+
+        // 1. 중력을 구현
+        // 2. 지형에 안착시키기
+        // 3. 점프를 구현하기
+        // 4. 끼임현상 없애기
+
+        [Header("Settings")]
+        public float gravity = -9.81f; // 중력 가속도(-9.81 = 현실세계)
+        public float jumpPower = 8.0f; // 빨간줄 뜨면 안적어도됨
+        public int maxJumpCount = 2;
+        public float groundCheckDistance = 0.5f;  // 바닥 검사 길이. 짧으면 짧을수록 디테일해짐
+        public float skinWidth = 0.02f; // 캐릭터의 주위에 박스를 만들기위해 보정 용도 사용하는 변수
+
+        // 물리에도, 스크롤에서 사용하던것처럼 특정 계층만 모여있는 Layer 개념이 있습니다
+        // 이번에 사용하는 Layer개념은 지형만 모아놓은 Ground Layer입니다.
+        public LayerMask collisionLayer;
+
+        // 내부 상태 변수들
+        private float verticalVelocity = 0.0f; // 실시간 수직 가속 운동 값
+        private bool isGrounded = false; // 땅에 닿았는지 체크 하는 용도
+        private int jumpCount = 0;
+        private bool jumpRequested = false;
 
         private void Awake()
         {
@@ -36,9 +58,24 @@ namespace Study.PrimitiveAndVector
             // => 운동을 100% 직접 제어하기 위함.
             rBody.bodyType = RigidbodyType2D.Kinematic;
         }
-        
+
+        private void Update()
+        {
+            // FixedUpdate는 매프레임마다 실행되는게 아니라
+            // 특정 시간마다 호출되어서, 프레임이 패싱 될 수 있습니다. 
+            
+            // Update 함수에서 jumpRequested 우편함에 요청이 있었음을 기록하고
+            // FixedUpdate에서 호출이 되는 ApplyJump 함수에서 우편함을 읽고, 초기화 합니다
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                jumpRequested = true;
+            }
+        }
+
         private void FixedUpdate()
         {
+            isGrounded = CheckGrounded();
+
             // 수평의 이동량을 결정하기 위한 변수
             float horizontal = 0.0f;
 
@@ -59,13 +96,7 @@ namespace Study.PrimitiveAndVector
             }
 
             ApplyGravaity();
-
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                ApplyJump();
-            }
-
-            // 점프 들어가야함
+            ApplyJump();
 
             // 이번 프레임에 움직이고 싶은 이동량
             Vector3 desireMove = 
@@ -96,41 +127,6 @@ namespace Study.PrimitiveAndVector
             currentState = state;
         }
 
-        private void Move(Vector3 dir)
-        {
-            //transform.Translate(dir * speed * Time.deltaTime);
-            //transform.position += (dir * (speed * Time.deltaTime));
-            // Vector3             Vector3 * (float: distance)
-
-            // 이번 프레임에 움직일 벡터의 크기 : 이번 프레임 이동량
-            Vector3 moveVector = dir * (speed * Time.fixedDeltaTime);
-            
-            // 내 위치와 이동량을 더해줍니다
-            rBody.MovePosition(transform.position + moveVector);
-        }
-
-        private void Jump()
-        {
-            // AddForce를 사용하지 않고 점프를 구현해보세요
-            // moveVector에 수평적 움직과 점프의 수직적 움직임을 통합
-            // 하면 됩니다
-            rBody.AddForceY(jumpPower, ForceMode2D.Impulse);
-        }
-
-        // 1. 중력을 구현
-        // 2. 지형에 안착시키기
-        // 3. 점프를 구현하기
-        // 4. 끼임현상 없애기
-
-        [Header("Settings")]
-        public float gravity = -9.81f; // 중력 가속도(-9.81 = 현실세계)
-        public float jumpPower = 8.0f; // 빨간줄 뜨면 안적어도됨
-        public int maxJumpCount = 2;
-
-        // 내부 상태 변수들
-        private float verticalVelocity = 0.0f; // 실시간 수직 가속 운동 값
-        private bool isGrounded = false; // 땅에 닿았는지 체크 하는 용도
-
         // # 중력 적용
         private void ApplyGravaity()
         {
@@ -141,6 +137,7 @@ namespace Study.PrimitiveAndVector
             {
                 // 캐릭터가 바닥에 잘 붙어 줄수 있게 Damping값을 넣어 줍니다.
                 verticalVelocity += groundStickSpeed;
+                jumpCount = 0; // 바닥에 붙어있으니 점프 카운트를 초기화 시킴
             }
             else // 공중에 있는 상태
             {
@@ -149,10 +146,6 @@ namespace Study.PrimitiveAndVector
                 verticalVelocity += gravity * Time.fixedDeltaTime;
             }
         }
-
-        // 물리에도, 스크롤에서 사용하던것처럼 특정 계층만 모여있는 Layer 개념이 있습니다
-        // 이번에 사용하는 Layer개념은 지형만 모아놓은 Ground Layer입니다.
-        public LayerMask collisionLayer;
 
         // 한축의 이동을 해결하는 함수 (수평과 수직 공용)
         // move : 그 축으로 이동하려는 거리(부호 있음)
@@ -187,9 +180,6 @@ namespace Study.PrimitiveAndVector
             // Mathf.Sign(값) 함수는 전달된 값의 부호만을 반환 합니다
         }
 
-        // 캐릭터의 주위에 박스를 만들기위해 보정 용도 사용하는 변수
-        public float skinWidth = 0.02f; 
-
         // CastBox를 하기위한 Bounds를 반환하는 함수입니다.
         private Bounds GetCastBox()
         {
@@ -204,15 +194,34 @@ namespace Study.PrimitiveAndVector
             return box;
         }
 
-
         private void ApplyJump()
-        { 
+        {
+            if (jumpRequested == false) return;
+            jumpRequested = false; //우편함을 비웁니다.
 
+            // 점프 횟수 제어
+            if (jumpCount >= maxJumpCount) return;
+
+            // 점프 하는 순간 y속도(수직 속도)를 "확" 끌어 올립니다.
+            // 이후 ApplyGravity가 매 프레임 이 속도를 깎아서 포물선을 만들도록
+            // 유도합니다
+            verticalVelocity = jumpPower;
+            jumpCount++;
+            isGrounded = false; // 바닥에서 떨어졌음을 설정합니다.
         }
 
+        // 바닥 판정
+        // 캐스트 박스를 발밑으로 짧게 쏴서 닿는게 있으면 바닥으로 봅니다.
+        // PS : 발 밑으로만 솨야한다는거~
+        // ! 팁 : 이 방식을 응용해서 벽과 충돌 중인지도 검사 가능합니다 (벽 점프)
         private bool CheckGrounded()
         {
+            Bounds box = GetCastBox();
+            RaycastHit2D hit = Physics2D.BoxCast(
+                box.center, box.size, 0.0f, Vector2.down, groundCheckDistance, collisionLayer);
 
+            bool result = (hit.collider != null);
+            return result;
         }
 
         #region ResolveAxisMovement 시각화 코드
