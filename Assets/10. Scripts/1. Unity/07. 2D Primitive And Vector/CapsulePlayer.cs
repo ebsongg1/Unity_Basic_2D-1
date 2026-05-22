@@ -78,8 +78,6 @@ namespace Study.PrimitiveAndVector
             rBody.MovePosition(transform.position + moveVector);
         }
 
-        
-
         private void Jump()
         {
             // AddForce를 사용하지 않고 점프를 구현해보세요
