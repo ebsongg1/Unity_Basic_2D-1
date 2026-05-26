@@ -15,7 +15,7 @@ namespace Study.PrimitiveAndVector
     // - 어떻게 객체들을 감지할 것인가?
     // - 어떻게 변화량을 전달할 것인가?
 
-
+    [DefaultExecutionOrder(-100)] // 실행 순서를 조절하는 키워드 입니다
     public class Carrier : MonoBehaviour
     {
         [Header("Settings")]

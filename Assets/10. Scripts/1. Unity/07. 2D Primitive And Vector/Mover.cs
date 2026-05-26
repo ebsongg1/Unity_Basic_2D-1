@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Study.PrimitiveAndVector
 {
+    [DefaultExecutionOrder(-200)] // 실행 순서를 조절하는 키워드 입니다
     public class Mover : MonoBehaviour
     {
         public float speed = 1.0f;

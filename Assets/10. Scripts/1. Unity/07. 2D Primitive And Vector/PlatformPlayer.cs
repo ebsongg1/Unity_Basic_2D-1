@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 namespace Study.PrimitiveAndVector
 {
@@ -33,6 +32,8 @@ namespace Study.PrimitiveAndVector
         private bool isGrounded = false; // 땅에 닿았는지 체크 하는 용도
         private int jumpCount = 0;
         private bool jumpRequested = false;
+
+        private Vector3 externalDelta;
 
         private void Awake()
         {
@@ -89,6 +90,12 @@ namespace Study.PrimitiveAndVector
 
             rBody.MovePosition(transform.position + moveVector);
         }
+
+        public void AddExternalMovement(Vector3 delta)
+        {
+            externalDelta += delta;
+        }
+
 
         private void SetSunGlassState(State state)
         {
@@ -171,12 +178,7 @@ namespace Study.PrimitiveAndVector
             return result;
         }
 
-        private Vector3 externalDelta;
-
-        public void AddExternalMovement(Vector3 delta)
-        {
-            externalDelta += delta;
-        }
+        
 
         #region ResolveAxisMovement 시각화 코드
 
