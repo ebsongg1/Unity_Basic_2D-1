@@ -23,7 +23,7 @@ namespace Study.PrimitiveAndVector
 
         private Rigidbody2D rBody;
         private Vector3 prevPosition; // Vector2 => Vector3,  current => prev 로 수정
-        private List<Rigidbody2D> targets = new List<Rigidbody2D>();
+        private HashSet<Rigidbody2D> targets = new HashSet<Rigidbody2D>();
 
         private void Awake()
         {
@@ -42,9 +42,9 @@ namespace Study.PrimitiveAndVector
             // = 현재 프레임의 운동량
             prevPosition = currentPosition; // 계산 끝나면 prevPosition을 갱신
 
-            for (int i = 0; i < targets.Count; ++i)
+            foreach(Rigidbody2D rb in targets)
             {
-                TransferMove(targets[i], delta);
+                TransferMove(rb, delta);
             }
         }
 
