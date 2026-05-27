@@ -229,3 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e9dc7c669269d4893144a84bd889bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study.MergeGame.AnimalBall
+  level: 6
+  hasFirstContact: 0
+  isMerged: 0

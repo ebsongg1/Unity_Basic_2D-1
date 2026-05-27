@@ -6,20 +6,29 @@ namespace Study.MergeGame
     {
         public int level = 1;
 
-        public bool hasFirstContact = false;
-        public bool isMerged = false;
+        // C#의 프로퍼티를 이용해서 외부에서는 조회가능하지만
+        // 변경에 대한 책임은 나만(private) 가질 수 있는
+        // 안전한 변수(사실은 필드)를 만들어 줍니다
+        public bool HasFirstContact { get; private set; } = false;
+        public bool IsMerged { get; set; } = false;
 
         private Rigidbody2D rBody;
+        private Collider2D col;
 
         private void Awake()
         {
             rBody = GetComponent<Rigidbody2D>();
+            col = GetComponent<Collider2D>();
+            col.enabled = false;
             //  gravityScale은 중력의 영향을 얼마나 받는지 결정하는 변수입니다
-            rBody.gravityScale = 0.0f; 
+            rBody.gravityScale = 0.0f;
+            rBody.bodyType = RigidbodyType2D.Kinematic;
         }
 
         public void Drop()
         {
+            col.enabled = true;
+            rBody.bodyType = RigidbodyType2D.Dynamic;
             rBody.gravityScale = 1.0f;
 
             // transform.SetParent()
@@ -44,12 +53,36 @@ namespace Study.MergeGame
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            hasFirstContact = true;
+            HasFirstContact = true;
+
+            // 두 볼이 병합되는 과정은
+            // 1. 접촉이 일어난다
+            // 2. 두 개체가 사라진다
+            // 3. 상위개체가 그 중앙에 생긴다
+
+            // 두 개체가 접촉해서 병합요청이 두번 호출 될 수 있으므로,
+            // 한쪽에 bool변수를 넣어서 중복호출 되지 않도록 해줍니다
+            if (IsMerged) return;
+
+            // 충돌 정보에서 나와 충돌한 gameObejct에서 AnibalBall 컴포넌트를
+            // 가져와 봅니다
+            AnimalBall contactBall = collision.gameObject.GetComponent<AnimalBall>();
+
+            // 벽에 부딪혀서 충돌한 개체에 AnimalBall 컴포넌트가 없다면
+            if (contactBall == null) return;
+
+            // 나의 레벨과 접촉한 볼의 level이 다르다면 return
+            if (level != contactBall.level) return;
+
+            MergeGameManager.Instance.MergeBall(this, contactBall);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            
+            if(collision.CompareTag("Finish"))
+            {
+                MergeGameManager.Instance.GameOver();
+            }
         }
     }
 }

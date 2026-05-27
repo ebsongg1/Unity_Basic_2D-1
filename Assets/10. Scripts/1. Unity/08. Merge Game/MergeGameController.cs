@@ -72,8 +72,6 @@ namespace Study.MergeGame
             transform.position = adjustPosition;
         }
 
-        public MergeGameManager manager;
-
         private void SpawnBall()
         {
             // MergeGameManager에서 공을 가지고 와서
@@ -102,7 +100,7 @@ namespace Study.MergeGame
             while(true)
             {
                 // 떨군 볼이 어딘가에 닿았다면
-                if (dropBall.hasFirstContact) break;
+                if (dropBall.HasFirstContact) break;
                 yield return null; // 한 프레임 대기, 지연 입니다.
             }
 

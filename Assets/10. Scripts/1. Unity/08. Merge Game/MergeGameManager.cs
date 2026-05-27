@@ -49,8 +49,46 @@ namespace Study.MergeGame
         private AnimalBall GetBall(int index)
         {
             // 예외처리
-            if (index < 0 || maxIndexInQueue < index) return BallPrefabs[0];
+            if (index < 0 || BallPrefabs.Length <= index) return BallPrefabs[0];
             return BallPrefabs[index];
+        }
+
+        // ballA 개체와 ballB 개체의 병합을 진행합니다
+        public void MergeBall(AnimalBall ballA, AnimalBall ballB)
+        {
+            //두개체가 병합 진행상태임을 지정해줌
+            ballA.IsMerged = true;
+            ballB.IsMerged = true;
+
+            // 삭제하기 전에 중간 지점을 지역변수로 저장합니다
+            Vector3 centerPosition = ballA.transform.position + ballB.transform.position;
+            centerPosition /= 2;
+
+            // 생성할 준비하기
+            int upgradeLevel = ballA.level; 
+            // ball이 갖고 있는 level이 ballPrefab에서 다음 인덱스가 됨
+            // level 1 = index 0 , level 2 = index 1;
+            // 상위 level 개체의 index는 ball의 level이 되죠
+            AnimalBall upgradBall = GetBall(upgradeLevel);
+
+            // ballA와 ballB를 삭제
+            ballA.gameObject.SetActive(false); 
+            ballB.gameObject.SetActive(false);
+            // 두 개체를 비 활성화 해주는 이유는 삭제가 조금 느려서
+            // 충돌 안일어나게 하려고 일단 비활성화 시켜두고, 안전하게 삭제처리함
+
+            Destroy(ballA.gameObject);
+            Destroy(ballB.gameObject);
+
+            // 상위 볼 생성
+            AnimalBall spawnedBall = 
+                Instantiate(upgradBall, centerPosition, Quaternion.identity);
+            spawnedBall.Drop();
+        }
+
+        public void GameOver()
+        {
+
         }
     }
 }
