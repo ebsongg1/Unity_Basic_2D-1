@@ -86,9 +86,24 @@ namespace Study.MergeGame
             spawnedBall.Drop();
         }
 
+        // 게임오버가 되면 활성화 될 개체들과
+        [Header("GameOver Settings")]
+        public GameObject[] enableObjects;
+
+        // 게임오버가 되면 비활성화 될 개체들
+        public GameObject[] disAbleObjects;
+
         public void GameOver()
         {
+            for(int i = 0; i < enableObjects.Length; ++i)
+            {
+                enableObjects[i].SetActive(true);
+            }
 
+            for (int i = 0; i < disAbleObjects.Length; ++i)
+            {
+                disAbleObjects[i].SetActive(false);
+            }
         }
     }
 }

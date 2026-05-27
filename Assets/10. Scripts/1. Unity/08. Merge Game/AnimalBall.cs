@@ -54,6 +54,7 @@ namespace Study.MergeGame
         private void OnCollisionEnter2D(Collision2D collision)
         {
             HasFirstContact = true;
+            OnTriggerEnter2D(collision.collider);
 
             // 두 볼이 병합되는 과정은
             // 1. 접촉이 일어난다
@@ -79,7 +80,9 @@ namespace Study.MergeGame
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.CompareTag("Finish"))
+            if (HasFirstContact == false) return;
+
+            if (collision.CompareTag("Finish"))
             {
                 MergeGameManager.Instance.GameOver();
             }
