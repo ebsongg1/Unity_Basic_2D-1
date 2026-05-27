@@ -49,7 +49,7 @@ namespace Study.MergeGame
         private AnimalBall GetBall(int index)
         {
             // 예외처리
-            if (index < 0 || BallPrefabs.Length >= index) return BallPrefabs[0];
+            if (index < 0 || maxIndexInQueue < index) return BallPrefabs[0];
             return BallPrefabs[index];
         }
     }
