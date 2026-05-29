@@ -16,6 +16,13 @@ namespace Study.MergeGame
 
         private Queue<int> ballIndexQueue = new Queue<int>();
 
+        // 게임오버가 되면 활성화 될 개체들과
+        [Header("GameOver Settings")]
+        public GameObject[] enableObjects;
+
+        // 게임오버가 되면 비활성화 될 개체들
+        public GameObject[] disAbleObjects;
+
 
         #region Unity Methods
         private void Awake()
@@ -84,14 +91,9 @@ namespace Study.MergeGame
             AnimalBall spawnedBall = 
                 Instantiate(upgradBall, centerPosition, Quaternion.identity);
             spawnedBall.Drop();
+
+            AddScore(upgradeLevel);
         }
-
-        // 게임오버가 되면 활성화 될 개체들과
-        [Header("GameOver Settings")]
-        public GameObject[] enableObjects;
-
-        // 게임오버가 되면 비활성화 될 개체들
-        public GameObject[] disAbleObjects;
 
         public void GameOver()
         {
@@ -104,6 +106,31 @@ namespace Study.MergeGame
             {
                 disAbleObjects[i].SetActive(false);
             }
+        }
+
+        public TMP_Text text;
+        private Dictionary<int, int> scoreTable = new Dictionary<int, int>();
+        private int score = 0;
+
+        private void Start()
+        {
+            scoreTable.Add(1, 10);
+            scoreTable.Add(2, 20);
+            scoreTable.Add(3, 40);
+            scoreTable.Add(4, 50);
+            scoreTable.Add(5, 55);
+            scoreTable.Add(6, 70);
+            scoreTable.Add(7, 77);
+            scoreTable.Add(8, 80);
+            scoreTable.Add(9, 100);
+            text.SetText($"{score}");
+        }
+
+        // 새로 생성될 개체의 level을 기준으로 득점처리를 진행합니다
+        private void AddScore(int upgradeLevel)
+        {
+            score += scoreTable[upgradeLevel];
+            text.SetText($"{score}");
         }
     }
 }
