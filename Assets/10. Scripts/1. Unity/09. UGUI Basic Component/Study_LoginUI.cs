@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections.Generic;
 
 namespace Study_LoginUI
 {
@@ -14,6 +16,73 @@ namespace Study_LoginUI
 
         [field: SerializeField]
         private Button LoginButton { get; set; }
+
+        private Selectable[] selectables;
+        private int index = 0;
+
+        private List<User> userDB = new List<User>();
+
+        private void Awake()
+        {
+            selectables = new Selectable[] { EmailField, PasswordField, LoginButton };
+            index = -1;
+            CreateUser();
+        }
+
+        private void Update()
+        {
+            if(Keyboard.current.tabKey.wasPressedThisFrame)
+            {
+                index += 1;
+                if (index >= selectables.Length) index = 0;
+                selectables[index].Select();
+            }
+        }
+
+        public void OnEndEditEmail(string email)
+        {
+            index = 0;
+            Debug.Log($"입력한 이메일 : {email}");
+        }
+
+        public void OnEndEditPassword(string password)
+        {
+            index = 1;
+            Debug.Log($"입력한 이메일 : {password}");
+        }
+
+        public void OnClickLoginButton()
+        {
+            index = 2;
+            Debug.Log($"로그인 버튼 클릭!");
+        }
+
+        private void CreateUser()
+        {
+            userDB.Add(new User("koohoo89@gmail.com", "MyP@ssw0rd!"));
+            userDB.Add(new User("alex_smith@naver.com", "Al3x2026!!"));
+            userDB.Add(new User("happy_min@kakao.com", "H@ppyM1n99"));
+            userDB.Add(new User("vr_pioneer@gmail.com", "Virtu@lR3al"));
+            userDB.Add(new User("starlight22@naver.com", "St@rL1ght*"));
+
+            userDB.Add(new User("unity_dev@kakao.com", "Un1tyD3v#"));
+            userDB.Add(new User("coffee_lover@gmail.com", "C0ff33L0v3"));
+            userDB.Add(new User("blue_sky_77@naver.com", "Blu3Sky77&"));
+            userDB.Add(new User("mr_creator@kakao.com", "M!xedR3al"));
+            userDB.Add(new User("night_owl_88@gmail.com", "N1ght0wl^"));
+
+            userDB.Add(new User("gamer_x@naver.com", "G@m3rX001"));
+            userDB.Add(new User("pixel_master@kakao.com", "P1x3lM@st3r"));
+            userDB.Add(new User("tech_guru@gmail.com", "T3chGuru$"));
+            userDB.Add(new User("sunny_day@naver.com", "SunnY_D@y"));
+            userDB.Add(new User("code_ninja@kakao.com", "C0d3N1nj@!"));
+
+            userDB.Add(new User("silver_lining@gmail.com", "S1lv3rL1n"));
+            userDB.Add(new User("quiet_river@naver.com", "Qu13tR1v3r"));
+            userDB.Add(new User("mountain_climber@kakao.com", "M0unt@1nC!"));
+            userDB.Add(new User("city_lights@gmail.com", "C1tyL1ghts$"));
+            userDB.Add(new User("fast_runner@naver.com", "F@stRunn3r"));
+        }
     }
 
     public class User
