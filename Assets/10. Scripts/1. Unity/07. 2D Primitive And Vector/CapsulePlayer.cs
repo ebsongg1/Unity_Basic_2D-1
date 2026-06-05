@@ -1,3 +1,4 @@
+using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -61,6 +62,12 @@ namespace Study.PrimitiveAndVector
 
         private void Update()
         {
+            if(SimpleInput.GetKeyDown(Key.LeftArrow))
+            {
+
+            }
+
+
             // FixedUpdate는 매프레임마다 실행되는게 아니라
             // 특정 시간마다 호출되어서, 프레임이 패싱 될 수 있습니다. 
             
