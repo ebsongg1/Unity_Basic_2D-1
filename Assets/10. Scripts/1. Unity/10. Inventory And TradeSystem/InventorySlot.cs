@@ -17,6 +17,16 @@ namespace Study_Inventory
         private RectTransform rectTransform;
         private InventoryItem item;
 
+        public bool IsEmpty => (item == null);
+        // 위와 아래는 동일합니다
+        //public bool IsEmpty { get { return item == null; } }
+
+        public InventoryItem Item => item;
+        // 위의 표현은 Item을 호출하면 멤버변수 item을 반환하겠다는
+        // 람다식 표현입니다. 읽기 전용으로 반환되어서 Set은 불가합니다.
+        
+
+
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
@@ -52,7 +62,7 @@ namespace Study_Inventory
         {
             // center : 중심 위치 잡아주는 값입니다.
             Vector2 center = rectTransform.sizeDelta / 2;
-            rectTransform.anchoredPosition = inputPosition - center;
+            rectTransform.anchoredPosition = inputPosition;// - center;
         }
 
     }
