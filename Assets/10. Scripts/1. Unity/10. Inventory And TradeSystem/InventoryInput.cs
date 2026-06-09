@@ -90,7 +90,7 @@ namespace Study_Inventory
             //  3.2 종료된 위치의 Slot이 Empty일 경우
             //  3.3 종료된 위치의 Slot에 아이템이 있을 경우
 
-            InventorySlot endSlot = GetSlotOrNull(eventData);
+            endSlot = GetSlotOrNull(eventData);
 
             if(endSlot == null)
             {
