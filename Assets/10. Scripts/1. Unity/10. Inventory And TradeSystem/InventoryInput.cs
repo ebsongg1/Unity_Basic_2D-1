@@ -16,9 +16,9 @@ namespace Study_Inventory
     // 1. 드래그가 시작되면 시작된 위치의 Slot의 아이템 참조를 Cursor에게 Set한다
     // 2. 드래그가 진행되는 동안 Cursor 객체의 위치좌표를 Update한다
     // 3. 드래그가 종료되면 상황에 따라 알맞은 처리를 한다
-    //  3.1 종료된 위치의 Slot이 Empty일 경우
-    //  3.2 종료된 위치의 Slot에 아이템이 있을 경우
-    //  3.3 종료된 위치에 Slot 자체가 없을 경우
+    //  3.1 종료된 위치에 Slot 자체가 없을 경우
+    //  3.2 종료된 위치의 Slot이 Empty일 경우
+    //  3.3 종료된 위치의 Slot에 아이템이 있을 경우
 
     public class InventoryInput : MonoBehaviour
         , IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -60,7 +60,6 @@ namespace Study_Inventory
             return null;
         }
 
-
         public void OnBeginDrag(PointerEventData eventData)
         {
             // 1. 드래그가 시작되면 시작된 위치의
@@ -85,9 +84,41 @@ namespace Study_Inventory
         {
             if (startSlot == null) return; // 드래그 시작되지 않았으면 종료한다
 
+            // 3. 드래그가 종료되면 상황에 따라 알맞은 처리를 한다
+            //  3.1 종료된 위치에 Slot 자체가 없을 경우
+            //  3.2 종료된 위치의 Slot이 Empty일 경우
+            //  3.3 종료된 위치의 Slot에 아이템이 있을 경우
+
+            InventorySlot endSlot = GetSlotOrNull(eventData);
+
+            if(endSlot == null)
+            {
+                ResetCursor();
+                return;
+            }
+
+            // Slot이 있을 경우
+
+            if (endSlot.IsEmpty)
+            {
+                // endSlot 칸에다가 CusorSlot에 있는 내용을 그대로 대입합니다.
+                endSlot.SetItem(CursorSlot.Item);
+                startSlot.SetItem(null);
+            }
+            else
+            {
+                startSlot.SetItem(endSlot.Item);
+                endSlot.SetItem(CursorSlot.Item);
+            }
+
+            ResetCursor();
         }
 
-
+        private void ResetCursor()
+        {
+            CursorSlot.SetItem(null);
+            startSlot = null;
+        }
     }
 
 }

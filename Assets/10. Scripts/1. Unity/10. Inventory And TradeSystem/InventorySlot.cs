@@ -24,11 +24,11 @@ namespace Study_Inventory
         public InventoryItem Item => item;
         // 위의 표현은 Item을 호출하면 멤버변수 item을 반환하겠다는
         // 람다식 표현입니다. 읽기 전용으로 반환되어서 Set은 불가합니다.
-        
-
 
         private void Start()
         {
+            SetItem(null); // 임시 초기화 코드
+
             rectTransform = GetComponent<RectTransform>();
             // 아래의 표현도 됩니다.
             //rectTransform = transform as RectTransform;
@@ -60,9 +60,7 @@ namespace Study_Inventory
         // Cursor 슬롯 전용 함수입니다.
         public void SetPosition(Vector2 inputPosition)
         {
-            // center : 중심 위치 잡아주는 값입니다.
-            Vector2 center = rectTransform.sizeDelta / 2;
-            rectTransform.anchoredPosition = inputPosition;// - center;
+            rectTransform.anchoredPosition = inputPosition;
         }
 
     }

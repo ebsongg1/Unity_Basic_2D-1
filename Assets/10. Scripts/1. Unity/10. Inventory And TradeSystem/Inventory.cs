@@ -22,7 +22,7 @@ namespace Study_Inventory
         [field: SerializeField] public int SizeRow { get; private set; } = 8;
         [field: SerializeField] public int SizeColumn { get; private set; } = 5;
 
-        private InventorySlot[,] SlotGrid { get; set; }
+        public InventorySlot[,] SlotGrid { get; private set; }
 
         private void Awake()
         {
