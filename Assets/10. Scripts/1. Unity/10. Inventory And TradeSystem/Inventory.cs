@@ -50,6 +50,13 @@ namespace Study_Inventory
             }
         }
 
+        private void Start()
+        {
+            // 인벤토리 시스템에 등록해준다 (스스로를 매개변수로 전달함)
+            // - Start에서 하는 이유는 Awake의 호출 순서 보장이 명확하지 않아서
+            InventorySystem.Instance.Register(this);
+        }
+
         /// <summary>
         /// 매개변수의 slot이 inventory 안에 존재하는지 검사
         /// </summary>

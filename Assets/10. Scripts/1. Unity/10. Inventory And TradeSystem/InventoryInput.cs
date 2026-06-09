@@ -1,8 +1,9 @@
-using UnityEngine;
+using NUnit;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Study_Inventory
 {
@@ -104,11 +105,22 @@ namespace Study_Inventory
                 // endSlot 칸에다가 CusorSlot에 있는 내용을 그대로 대입합니다.
                 endSlot.SetItem(CursorSlot.Item);
                 startSlot.SetItem(null);
+                CheckTrade(startSlot, endSlot);
             }
             else
             {
-                startSlot.SetItem(endSlot.Item);
-                endSlot.SetItem(CursorSlot.Item);
+                // 다른 인벤토리 간 swap은 거래 의도가 모호해서 막아둡니다
+                // 두번 연속 거래가 일어나는 케이스를 만들 이유가 없음
+
+                Inventory startInven = InventorySystem.Instance.GetInventoryOrNull(startSlot);
+                Inventory endInven = InventorySystem.Instance.GetInventoryOrNull(endSlot);
+
+                // 같은 인벤토리 내에서의 swap 요청이라면
+                if(startInven.Type == endInven.Type)
+                {
+                    startSlot.SetItem(endSlot.Item);
+                    endSlot.SetItem(CursorSlot.Item);
+                }
             }
 
             ResetCursor();
@@ -118,6 +130,37 @@ namespace Study_Inventory
         {
             CursorSlot.SetItem(null);
             startSlot = null;
+        }
+
+        private void CheckTrade(InventorySlot start, InventorySlot end)
+        {
+            Inventory startInven = InventorySystem.Instance.GetInventoryOrNull(start);
+            Inventory endInven = InventorySystem.Instance.GetInventoryOrNull(end);
+            InventoryItem item = CursorSlot.Item;
+
+            if (startInven == null || endInven == null) return;
+            // 같은 인벤토리끼리의 이동은 거래가 아니다.
+            if (startInven.Type == endInven.Type) return;
+
+            // 아래부터는 거래의 판정 처리 로직 입니다.
+            TradeSystem.TradeInfo tradeInfo = new TradeSystem.TradeInfo();
+            tradeInfo.Start = startSlot;
+            tradeInfo.End = endSlot;
+            tradeInfo.Item = item;
+
+            switch (endInven.Type)
+            {
+                case InventoryType.Trader:
+                    // 유저 => 상점 : 판매
+                    tradeInfo.TradeType = TradeSystem.TradeType.Sell;
+                    break;
+                case InventoryType.Player:
+                    // 상점 => 유저 : 구매
+                    tradeInfo.TradeType = TradeSystem.TradeType.Buy;
+                    break;
+            }
+
+            TradeSystem.Instance.RequestTradeEvent(tradeInfo);
         }
     }
 
