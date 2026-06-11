@@ -109,6 +109,64 @@ namespace Study.Utilities
         }
 
         #endregion
+
+        #region 축 입력 (WASD / 방향기)
+
+        /// <summary>
+        /// 수평 축 원시 입력값을 반환합니다 (-1, 0, 1)
+        /// A/D 키 또는 좌/우 화살표 키 대응. 
+        /// (레거시에서 Input.GetAxisRaw("Horizontal")과 동일합니다)
+        /// </summary>
+        /// <returns></returns>
+        public static float GetAxisHorizontalRaw()
+        {
+            float axis = 0.0f;
+
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) 
+                axis += 1.0f;
+
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) 
+                axis -= 1.0f;
+
+            return axis;
+        }
+
+        /// <summary>
+        /// 수직 축 원시 입력값을 반환합니다 (-1, 0, 1)
+        /// W/S 키 또는 위/아래 화살표 키 대응. 
+        /// (레거시에서 Input.GetAxisRaw("Vertical")과 동일합니다)
+        /// </summary>
+        /// <returns></returns>
+        public static float GetAxisVerticalRaw()
+        {
+            float axis = 0.0f;
+
+            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
+                axis += 1.0f;
+
+            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
+                axis -= 1.0f;
+
+            return axis;
+        }
+
+        /// <summary>
+        /// 수평 / 수직 Raw 입력을 합쳐 정규화된 Vector2로 반환합니다.
+        /// 대각선 입력시 속도가 조금 빨라지는(루트2 나오는거) 현상을
+        /// 보정하여 반환합니다.
+        /// </summary>
+        /// <returns></returns>
+        public static Vector2 GetMoveAxisRaw()
+        {
+            Vector2 axis = new Vector2();
+            axis.x = GetAxisHorizontalRaw();
+            axis.y = GetAxisVerticalRaw();
+
+            if (axis.sqrMagnitude > 1f) return axis.normalized;
+            return axis;
+        }
+
+        #endregion
     }
 
 }

@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/00. Study/03. Card Selector/03. CardSelector.unity
+    guid: 7927aefa1ad931f4d9af76321a2af458
+  - enabled: 1
+    path: Assets/00. Study/04. Pair Matching/Pair Matching2D.unity
+    guid: 1f40615cbfd99ba43931c10ba6afe345
+  - enabled: 1
+    path: Assets/00. Study/06. UFO Game/UFO Game.unity
+    guid: dd3e45cafb1bf594e950ff061d2720e4
+  - enabled: 1
     path: Assets/00. Study/08. Merge Game/Merge Game.unity
     guid: 7f3e444fd66d8d34b81fc9fc1aaafb26
+  - enabled: 1
+    path: Assets/00. Study/13. Scene Management/Scene Management.unity
+    guid: d58638af81662c24883c89fee0aba2a6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
