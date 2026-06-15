@@ -22,9 +22,9 @@ public class study_Worldmouseoint : MonoBehaviour
         // 전환할 때는 Camera의 기능을 이용
 
         Vector3 worldMousePoint = Camera.main.ScreenToWorldPoint(mousePosition);
-        worldMousePoint.z = transform.position.
+        //worldMousePoint.z = transform.position.
 
         // 전환된 위치를 대입
-        transform.position = mousePosition;
+        //transform.position = mousePosition;
     }
 }

@@ -13,11 +13,11 @@ public class study_scene : MonoBehaviour
 {
     private Canvas canvas;
 
-    protected override void OnInitialize()
-    {
-        
-        canvas = GetComponent<Canvas>();
-    }
+   // protected override void OnInitialize()
+   // {
+   //     
+   //     canvas = GetComponent<Canvas>();
+   // }
 
     private void Update()
     {
@@ -53,27 +53,27 @@ public class study_scene : MonoBehaviour
 
         public enum GameScene
         {
-           CardSelector = 0.
-           PairMatching,
-           UFOGame,
-           MergeGame,
-           Home
+           //CardSelector = 0.
+           //PairMatching,
+           //UFOGame,
+           //MergeGame,
+           //Home
         }
 
     private GameScene PrevScene{ get; set; }
-    private GameScene CurrentScene { get; set; } = GameScene.CardSelector;
+    //private GameScene CurrentScene { get; set; } = GameScene.CardSelector;
 
-    public void ChangeScene(int sceneIndex)
-    {
+    //public void ChangeScene(int sceneIndex)
+    //{
         // 비효율적이지만 빠르게 버튼을 이용하기 위해 함수 제작
-        ChangeScene((GameScene)sceneIndex);
-    }
-    public void ChangeScene(GameScene targetScene)
-    {
-        PrevScene = CurrentScene;
-        CurrentScene = targetScene;
-        SceneManager.LoadScene((int)CurrentScene);
-    }
+        //ChangeScene((GameScene)sceneIndex);
+    //}
+    //public void ChangeScene(GameScene targetScene)
+    //{
+    //    PrevScene = CurrentScene;
+    //    CurrentScene = targetScene;
+    //    SceneManager.LoadScene((int)CurrentScene);
+    //}
 
     public void MovePreScene()
     {
@@ -83,5 +83,4 @@ public class study_scene : MonoBehaviour
 
 
     }
-}
-
+//
