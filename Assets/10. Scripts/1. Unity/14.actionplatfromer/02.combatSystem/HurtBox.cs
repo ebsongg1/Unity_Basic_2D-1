@@ -1,16 +1,23 @@
 using UnityEngine;
 
-public class HurtBox : MonoBehaviour
+namespace study_actionplatformer
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public class HurtBox : MonoBehaviour
     {
-        
+        [field:SerializeField] public CombatEntity Owner {  get; private set; }
+
+        private void Awake()
+        {
+            Owner = GetComponent<CombatEntity>();
+            if(Owner == null)
+            {
+                Owner = GetComponentInParent<CombatEntity>();
+            }
+            if (Owner == null)
+            {
+                Debug.LogError($"{name} : 부모 계층에서 CombatEntity 를 찾지 못했습니다.");
+            }
+        }
     }
 }

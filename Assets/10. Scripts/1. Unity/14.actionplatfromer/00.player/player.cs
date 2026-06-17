@@ -5,12 +5,15 @@ namespace study_actionplatformer
     // 스탯, 전투 관련 기능을 넣어놓을 것임. 그리고 어떤 개체에서든 player를 찾을 수 있는 기능을 만들것임.
     // CombatEntity를 상속받았기 때문에 '전투에 참여하는 개체'의 공통부(Pivot, TakerDamage 등 순수가상함수 계약)은 물려받고, 플레이어의 고유의 것만 여기 남음
 
-    //public class
+    public class PlayerStat : BaseStat
+    {
+
+    }
 
     [System.Serializable ]
     public struct AttackInfo
     {
-        //public AttackKey Key;
+        public AttackKey Key;
         public int MinDamage;
         public int MaxDamage;
         public AnimationCurve damageCurve;
@@ -25,15 +28,24 @@ namespace study_actionplatformer
             return 0;
         }
     }
-    
+
+    public enum AttackKey
+    {
+        None = 0,
+        Combo1,
+        Combo2,
+        Combo3,
+        JumbAttack,
+    }
+
     public class player : CombatEntity
     {
         public static player LocalPlayer { get; set; }
-        //public override BaseStat BaseStat => Stat;
+        public override BaseStat BaseStat => Stat;
         private PlayerStat Stat {  get; set; }
 
-        //private ov
-        
+        public AttackInfo attackInfo;
+
         public override void TakeDamage(int damage)
         {
             
