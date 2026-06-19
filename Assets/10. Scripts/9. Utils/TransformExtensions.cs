@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Study.Utilities
+namespace study_utilities
 {
     public static class TransformExtensions
     {
@@ -12,8 +12,27 @@ namespace Study.Utilities
         /// <param name="point"></param>
         /// <param name="range"></param>
         /// <returns></returns>
+        /// 
+        public static bool IsInRange(this Transform from, Vector3 point, float range)
+        {
+            return (Vector3.Distance(from.position, point) <= range);
+        }
 
-       
+        /// <summary>
+        /// 대상 Transform의 world position이 point와 동일한지(따로 없다면 오차 1000분의 1이내)
+        /// 비교하여 반환합니다
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="point"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static bool IsSamePosition(this Transform from, Vector3 point, float epsilon = 0.001f)
+        {
+            return (Vector3.Distance(from.position, point) <= 0.001);
+            return (Vector3.Distance(from.position, point) <= epsilon);
+        }
+
+
 
         /// <summary>
         /// 대상 Transform까지의 월드 방향 벡터 (normalized)

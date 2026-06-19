@@ -46,6 +46,11 @@ namespace study_actionplatformer
 
         public AttackInfo attackInfo;
 
+        private void Awake()
+        {
+            LocalPlayer = this;
+        }
+
         public override void TakeDamage(int damage)
         {
             

@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using study_utilities;
-using Study.Utilities;
+using Unity.VisualScripting;
 
 namespace study_actionplatformer
 {
@@ -115,20 +113,32 @@ namespace study_actionplatformer
             // Patrol은 목표지점(goalPoint)을 향해 움직임
             // 목표지점에 도달하면 내 다음 목적지 포인트를 갱신하고 Idle 상태로 전환 됨
 
-            const float STPPING_DISTANCE = 0.1f;
+            const float STOPPING_DISTANCE = 0.1f;
 
-            Vector3 adjustGoalPoint = transform.position;
-            adjustGoalPoint.x = goalPoint.x;
+            
 
             while (true)
             {
+                Vector3 adjustGoalPoint = transform.position;
+                adjustGoalPoint.x = goalPoint.x;
+
+                if (Target != null && transform.IsInRange(Target.position, attackRange))
+                {
+                    nextStateCoroutine = AttackStateCoroutine();
+                    yield break; // 코루틴 자체를 탈출하는 키워드 입니다
+                }
+
+                // 내가 현재 목표지점에 가까운지?
+                // - 목표지점이 B인지 ?  A지점으로 갱신 : B지점으로 갱신
+
                 // 목적지에 가까워졌으면
-                if(transform.IsInRange(adjustGoalPoint, STPPING_DISTANCE))
+                if (transform.IsInRange(adjustGoalPoint, STOPPING_DISTANCE))
                 {
                     // 삼항 연산자를 사용해서 pointB의 위치라면 pointA, 아니라면 pointB 바꿔 줌
 
                     // 내가 가까운 목표 지점에 따라서 해당 목표지점의 반대 지점으로 바꿔주기
-                    goalPoint = transform.IsInRange(pointB, STPPING_DISTANCE) ? pointA : pointB;
+                    goalPoint = transform.IsSamePosition(pointB) ? pointA : pointB;
+                    goalPoint = transform.IsSamePosition(pointB, STOPPING_DISTANCE) ? pointA : pointB;
                     nextStateCoroutine = IdleStateCoroutine();
                     Animator.SetBool(IS_MOVE, false);
                     yield break;
@@ -137,6 +147,59 @@ namespace study_actionplatformer
                 Move(adjustGoalPoint);
                 yield return null;
             }
+        }
+
+        private IEnumerator AttackStateCoroutine()
+        {
+            while (true)
+            {
+                // 1. Target이 사라질 경우
+                if(Target == null)
+                {
+                    nextStateCoroutine = IdleStateCoroutine();
+                    Animator.SetBool(IS_MOVE, false);
+                    yield break;
+                }
+
+                // 2. Target이 범위(추적 범위) 밖으로 이동할 경우
+                //  : 타겟이 매우 빠르게 추적 가능한 범위 바깥으로 이동하게 된 케이스
+                if(Target.IsInRange(transform.position, traceRange) == false)
+                {
+                    nextStateCoroutine = IdleStateCoroutine();
+                    Animator.SetBool(IS_MOVE, false);
+                    yield break;
+
+                }
+
+                // ===========탈출 처리가 끝나면=============
+                // 공격하거나 (타겟이 사거리 안에 있으면)
+                if(Target.IsInRange(transform.position, attackRange))
+                {
+                    Animator.SetTrigger(ATTACK);
+
+                    // 공격 모션이 타격 프레임에 도달할 즈음 데미지를 전달함
+                    // - 정석은 애니메이션 이벤트 데이터 등을 넣어서 타격 프레임을 정확하게 알아내는게 맞음
+                    // - 여기서는 간단하게 시간으로 처리함
+
+                    // 공격 판정을 위한 대기
+                    yield return new WaitForSeconds(ATTACK_HIT_DELAY);
+                    ProcessAttack();
+
+                    // 공격 전체 쿨타임 대기
+                    yield return new WaitForSeconds(ATTACK_COOLDOWN - ATTACK_HIT_DELAY);
+                    
+                }
+
+                // 이동한다(타겟이 사거리 안에 들어올 때까지)
+                Move(Target.position);
+                yield return null;
+            }
+
+        }
+
+        private IEnumerator DeadStateCoroutine()
+        {
+            yield return null;
         }
 
         private void Move(Vector3 goalPosition)
@@ -156,15 +219,12 @@ namespace study_actionplatformer
             transform.localScale = (new Vector3(moveDirection * originalScale.x, originalScale.y, originalScale.z));
         }
 
-        private IEnumerator AttackStateCoroutine()
+        private void ProcessAttack()
         {
-            yield return null;
+            Animator.SetBool(IS_MOVE, false);
         }
 
-        private IEnumerator DeadStateCoroutine()
-        {
-            yield return null;
-        }
+        
 
 
     }
